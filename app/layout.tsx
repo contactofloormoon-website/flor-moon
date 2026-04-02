@@ -14,7 +14,7 @@ export default function RootLayout({
     <html lang="es">
       <head>
         {/* Esta línea busca tu nuevo icono en la carpeta public */}
-        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="icon" href="/favicon.ico" type="image/ico" />
         {/* Si prefieres usar un .ico en el futuro, solo cambias .png por .ico arriba */}
       </head>
       <body style={{ margin: 0, padding: 0, backgroundColor: '#050505' }}>
