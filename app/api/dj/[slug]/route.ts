@@ -1,79 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import Database from "better-sqlite3";
-import path from "path";
-
-type DJ = {
-  id: string;
-  slug: string;
-  name: string;
-  tagline: string | null;
-  bio: string | null;
-  location: string | null;
-  genres: string | null;
-  highlights: string | null;
-  labels: string | null;
-  email: string | null;
-  createdAt: string;
-  updatedAt: string;
-};
-
-type Hero = {
-  id: string;
-  djId: string;
-  backgroundImage: string | null;
-  logo: string | null;
-  showLogo: number;
-  artistName: string | null;
-  tagline: string | null;
-  position: string;
-  logoSize: number;
-  overlayOpacity: number;
-  showButtons: number;
-};
-
-type Event = {
-  id: string;
-  djId: string;
-  date: string;
-  city: string;
-  venue: string;
-  promoter: string;
-};
-
-type Music = {
-  id: string;
-  djId: string;
-  url: string;
-  platform: string;
-  isFeatured: number;
-  order: number;
-};
-
-type Gallery = {
-  id: string;
-  djId: string;
-  url: string;
-  alt: string | null;
-  order: number;
-};
-
-type Rider = {
-  id: string;
-  djId: string;
-  item: string;
-  requirement: string;
-  order: number;
-};
-
-type Contact = {
-  id: string;
-  djId: string;
-  email: string | null;
-  instagram: string | null;
-  soundcloud: string | null;
-  spotify: string | null;
-  showBookingButton: number;
-};
+import { getDB } from "@/lib/db/client";
 
 export async function GET(
   request: NextRequest,
@@ -82,43 +8,45 @@ export async function GET(
   try {
     const { slug } = await params;
     
-    const dbPath = path.join(process.cwd(), "dev.db");
-    const db = new Database(dbPath);
+    const isCloudflare = process.env.NODE_ENV === "production";
+    let env = undefined;
+    if (isCloudflare && (globalThis as any).env?.DB) {
+      env = { DB: (globalThis as any).env.DB };
+    }
     
-    const dj = db.prepare(`
+    const db = await getDB(env);
+    
+    const dj = await db.queryOne(`
       SELECT * FROM dj WHERE slug = ?
-    `).get(slug) as DJ | undefined;
+    `, [slug]);
     
     if (!dj) {
-      db.close();
       return NextResponse.json({ error: "DJ not found" }, { status: 404 });
     }
     
-    const hero = db.prepare(`
+    const hero = await db.queryOne(`
       SELECT * FROM hero WHERE djId = ?
-    `).get(dj.id) as Hero | undefined;
+    `, [dj.id]);
     
-    const events = db.prepare(`
+    const events = await db.query(`
       SELECT * FROM event WHERE djId = ? ORDER BY date ASC
-    `).all(dj.id) as Event[];
+    `, [dj.id]);
     
-    const music = db.prepare(`
+    const music = await db.query(`
       SELECT * FROM music WHERE djId = ? ORDER BY "order" ASC
-    `).all(dj.id) as Music[];
+    `, [dj.id]);
     
-    const gallery = db.prepare(`
+    const gallery = await db.query(`
       SELECT * FROM gallery WHERE djId = ? ORDER BY "order" ASC
-    `).all(dj.id) as Gallery[];
+    `, [dj.id]);
     
-    const rider = db.prepare(`
+    const rider = await db.query(`
       SELECT * FROM rider WHERE djId = ? ORDER BY "order" ASC
-    `).all(dj.id) as Rider[];
+    `, [dj.id]);
     
-    const contact = db.prepare(`
+    const contact = await db.queryOne(`
       SELECT * FROM contact WHERE djId = ?
-    `).get(dj.id) as Contact | undefined;
-    
-    db.close();
+    `, [dj.id]);
     
     return NextResponse.json({
       ...dj,
