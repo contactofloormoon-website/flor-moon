@@ -2,65 +2,62 @@ export const runtime = 'edge';
 
 import React from 'react';
 
-export default function PresskitDJ() {
-  // AQUÍ ES DONDE FLOR O CUALQUIER DJ CAMBIA SUS DATOS
-  const djData = {
-    name: "NOMBRE DEL DJ",
-    subTitle: "Techno / House Producer",
-    bio: "Escribe aquí una biografía impactante. Trayectoria, clubes donde tocó y estilo musical único.",
-    instagram: "https://instagram.com",
-    soundcloud: "https://soundcloud.com",
-    spotify: "https://spotify.com",
-    email: "contacto@dj.com",
-    imageUrl: "https://unsplash.com" // Foto de prueba
+export default function Page() {
+  // CONFIGURACIÓN DINÁMICA (Para que cobres por cambiar estos datos)
+  const dj = {
+    name: "FLOR MOON",
+    tagline: "TECHNO & HYPNOTIC PULSE",
+    bio: "Explorando las profundidades del sonido industrial y atmósferas hipnóticas. Con base en Rosario, Flor ha marcado su pulso en la escena local.",
+    accentColor: "#bc13fe",
+    links: [
+      { name: 'SPOTIFY', url: '#' },
+      { name: 'SOUNDCLOUD', url: '#' },
+      { name: 'INSTAGRAM', url: '#' }
+    ],
+    rider: [
+      { item: 'Pioneer CDJ-3000', qty: '2x' },
+      { item: 'Xone:96 Mixer', qty: '1x' }
+    ]
   };
 
   return (
-    <div style={{ backgroundColor: '#0a0a0a', color: '#ffffff', minHeight: '100vh', fontFamily: 'sans-serif', padding: '40px 20px' }}>
-      <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
-        
-        {/* Foto de Perfil */}
-        <img 
-          src={djData.imageUrl} 
-          alt={djData.name} 
-          style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover', border: '3px solid #bc13fe', marginBottom: '20px' }}
-        />
+    <main style={{ backgroundColor: '#050505', color: '#fff', minHeight: '100vh', fontFamily: 'sans-serif', margin: 0, padding: 0 }}>
+      
+      {/* SECCIÓN 1: HERO */}
+      <section style={{ height: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', background: 'linear-gradient(rgba(0,0,0,0.5), #050505), url("https://unsplash.com") center/cover' }}>
+        <h1 style={{ fontSize: '4rem', fontWeight: '900', margin: 0 }}>{dj.name}</h1>
+        <p style={{ color: dj.accentColor, fontWeight: 'bold', letterSpacing: '3px' }}>{dj.tagline}</p>
+        <button style={{ marginTop: '30px', padding: '12px 30px', backgroundColor: dj.accentColor, color: '#fff', border: 'none', borderRadius: '5px', fontWeight: 'bold', cursor: 'pointer' }}>BOOKING</button>
+      </section>
 
-        {/* Nombre y Estilo */}
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '10px', letterSpacing: '2px' }}>{djData.name}</h1>
-        <p style={{ color: '#bc13fe', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '30px' }}>{djData.subTitle}</p>
+      {/* SECCIÓN 2: INFO & LINKS */}
+      <div style={{ maxWidth: '600px', margin: '0 auto', padding: '50px 20px' }}>
+        <h2 style={{ fontSize: '1.2rem', borderBottom: `2px solid ${dj.accentColor}`, display: 'inline-block', marginBottom: '20px' }}>BIO</h2>
+        <p style={{ lineHeight: '1.6', opacity: 0.8 }}>{dj.bio}</p>
 
-        {/* Biografía */}
-        <div style={{ backgroundColor: '#1a1a1a', padding: '20px', borderRadius: '15px', marginBottom: '30px', lineHeight: '1.6' }}>
-          <p>{djData.bio}</p>
+        <div style={{ marginTop: '40px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {dj.links.map((link) => (
+            <a key={link.name} href={link.url} style={{ padding: '15px', border: '1px solid #222', borderRadius: '8px', color: '#fff', textDecoration: 'none', textAlign: 'center', fontWeight: 'bold', transition: '0.3s' }}>
+              {link.name}
+            </a>
+          ))}
         </div>
 
-        {/* Botones de Redes Sociales */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <a href={djData.instagram} target="_blank" style={buttonStyle}>INSTAGRAM</a>
-          <a href={djData.soundcloud} target="_blank" style={buttonStyle}>SOUNDCLOUD</a>
-          <a href={djData.spotify} target="_blank" style={buttonStyle}>SPOTIFY</a>
-          <a href={`mailto:${djData.email}`} style={{ ...buttonStyle, backgroundColor: '#ffffff', color: '#000000' }}>BOOKING DIRECTO</a>
+        {/* SECCIÓN 3: RIDER */}
+        <div style={{ marginTop: '60px', backgroundColor: '#111', padding: '30px', borderRadius: '15px' }}>
+          <h3 style={{ fontSize: '1rem', textAlign: 'center', marginBottom: '20px', opacity: 0.5 }}>TECHNICAL RIDER</h3>
+          {dj.rider.map((r) => (
+            <div key={r.item} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #222' }}>
+              <span>{r.item}</span>
+              <span style={{ fontWeight: 'bold' }}>{r.qty}</span>
+            </div>
+          ))}
         </div>
-
-        <footer style={{ marginTop: '50px', fontSize: '0.8rem', opacity: '0.5' }}>
-          © 2026 Rosario Groove Records - Digital Presskit Service
-        </footer>
       </div>
-    </div>
+
+      <footer style={{ textAlign: 'center', padding: '50px', opacity: 0.2, fontSize: '0.7rem' }}>
+        POWERED BY ROSARIO GROOVE RECORDS
+      </footer>
+    </main>
   );
 }
-
-// Estilo para los botones
-const buttonStyle = {
-  display: 'block',
-  padding: '15px',
-  backgroundColor: 'transparent',
-  color: '#ffffff',
-  textDecoration: 'none',
-  borderRadius: '8px',
-  border: '1px solid #333',
-  fontWeight: 'bold',
-  transition: '0.3s',
-  letterSpacing: '1px'
-};
