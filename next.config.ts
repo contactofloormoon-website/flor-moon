@@ -6,7 +6,10 @@ ignoreDuringBuilds: true,
 typescript: {
 ignoreBuildErrors: true,
 },
-webpack: (config: any) => {
+webpack: (config: any, { isServer }: any) => {
+if (!isServer) {
+config.cache = false;
+}
 return config;
 },
 };
