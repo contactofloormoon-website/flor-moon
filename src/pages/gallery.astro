@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Imágenes 1 a 9 para galería completa
+const galleryImages = [
+  { src: '/images/gallery/1.jpg', alt: 'Flor Moon presentándose 1' },
+  { src: '/images/gallery/2.jpg', alt: 'Flor Moon presentándose 2' },
+  { src: '/images/gallery/3.jpg', alt: 'Flor Moon presentándose 3' },
+  { src: '/images/gallery/4.jpg', alt: 'Flor Moon presentándose 4' },
+  { src: '/images/gallery/5.jpg', alt: 'Flor Moon presentándose 5' },
+  { src: '/images/gallery/6.jpg', alt: 'Flor Moon presentándose 6' },
+  { src: '/images/gallery/7.jpg', alt: 'Flor Moon presentándose 7' },
+  { src: '/images/gallery/8.jpg', alt: 'Flor Moon presentándose 8' },
+  { src: '/images/gallery/9.jpg', alt: 'Flor Moon presentándose 9' }
+];
+---
+
+<BaseLayout>
+  <section class="bg-black py-24">
+    <div class="max-w-6xl mx-auto px-4">
+      <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 text-center">
+        Galería<span class="text-purple-500"> Visual</span>
+      </h1>
+      <p class="text-gray-400 text-center mb-12">Momentos, sets y backstage</p>
+
+      <!-- Grid 3 columnas en desktop, 1 columna en móvil -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 justify-items-center">
+        {galleryImages.map((img, idx) => (
+          <div class="w-full max-w-[320px] aspect-[9/16] overflow-hidden rounded-lg cursor-pointer group">
+            <img
+              src={img.src}
+              alt={img.alt}
+              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+
+      <!-- Botón descarga ZIP -->
+      <div class="text-center">
+        <a 
+          href="/press-photos.zip" 
+          class="inline-block bg-purple-600 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-purple-500 hover:scale-105"
+        >
+          Descargar Press Photos (ZIP)
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

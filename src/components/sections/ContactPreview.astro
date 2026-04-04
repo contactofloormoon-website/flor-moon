@@ -1,0 +1,116 @@
+---
+// Formulario de contacto completo
+const bookingEmail = "contacto.flormoon@gmail.com";
+const phone = "+54 9 3704 85-4465";
+const whatsappUrl = "https://wa.link/rzpjg7";
+const instagramUrl = "https://www.instagram.com/florluna__/";
+const soundcloudUrl = "https://soundcloud.com/florencia-luna-944277749";
+const youtubeUrl = "https://www.youtube.com/@florencialuna7229";
+---
+
+<section class="bg-black py-24 px-4">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 text-center">
+      Contacto<span class="text-purple-500"> / Booking</span>
+    </h2>
+    <p class="text-gray-400 text-center mb-12">Conectá con Flor Moon</p>
+
+    <div class="grid md:grid-cols-2 gap-12">
+      <!-- Columna izquierda: formulario -->
+      <div>
+        <form id="contact-form" class="space-y-5">
+          <div>
+            <label class="block text-gray-300 mb-1">Nombre completo <span class="text-purple-500">*</span></label>
+            <input type="text" id="name" required class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-1">Email <span class="text-purple-500">*</span></label>
+            <input type="email" id="email" required class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-1">Teléfono</label>
+            <input type="tel" id="phone" class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-1">Asunto</label>
+            <input type="text" id="subject" class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-1">Mensaje <span class="text-purple-500">*</span></label>
+            <textarea id="message" rows="5" required class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition"></textarea>
+          </div>
+          <button type="submit" class="w-full bg-purple-600 text-white font-semibold py-3 rounded-full hover:bg-purple-500 transition duration-300">
+            Enviar mensaje
+          </button>
+          <div id="form-status" class="text-center text-sm mt-3"></div>
+        </form>
+      </div>
+
+      <!-- Columna derecha: información de contacto -->
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-xl font-semibold text-white mb-2">Email booking</h3>
+          <a href={`mailto:${bookingEmail}`} class="text-purple-400 hover:text-purple-300 transition">
+            {bookingEmail}
+          </a>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold text-white mb-2">Teléfono / WhatsApp</h3>
+          <a href={`tel:${phone.replace(/\s/g, '')}`} class="text-purple-400 hover:text-purple-300 transition block">
+            {phone}
+          </a>
+          <a href={whatsappUrl} target="_blank" class="text-purple-400 hover:text-purple-300 transition block mt-1">
+            WhatsApp directo
+          </a>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold text-white mb-2">Redes</h3>
+          <div class="flex gap-4">
+            <a href={instagramUrl} target="_blank" class="text-gray-400 hover:text-purple-400 transition">
+              Instagram
+            </a>
+            <a href={soundcloudUrl} target="_blank" class="text-gray-400 hover:text-purple-400 transition">
+              SoundCloud
+            </a>
+            <a href={youtubeUrl} target="_blank" class="text-gray-400 hover:text-purple-400 transition">
+              YouTube
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const statusDiv = document.getElementById('form-status');
+    statusDiv.innerHTML = 'Enviando...';
+    
+    const formData = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      subject: document.getElementById('subject').value,
+      message: document.getElementById('message').value
+    };
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      if (response.ok) {
+        statusDiv.innerHTML = '<span class="text-green-400">¡Mensaje enviado con éxito!</span>';
+        document.getElementById('contact-form').reset();
+      } else {
+        statusDiv.innerHTML = '<span class="text-red-400">Error al enviar. Intentá de nuevo.</span>';
+      }
+    } catch (error) {
+      statusDiv.innerHTML = '<span class="text-red-400">Error de conexión.</span>';
+    }
+  });
+</script>

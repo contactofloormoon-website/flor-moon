@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout>
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-8">Rider Técnico</h1>
+    
+    <div class="overflow-x-auto mb-8">
+      <table class="w-full border-collapse border">
+        <thead>
+          <tr><th class="border p-3 bg-gray-100">Categoría</th>
+          <th class="border p-3 bg-gray-100">Requerimiento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="border p-3">Audio</td><td class="border p-3">2 x CDJ-3000, 1 x DJM-900</td></tr>
+          <tr><td class="border p-3">Backline</td><td class="border p-3">Mesa para laptop, silla</td></tr>
+          <tr><td class="border p-3">Alimentos</td><td class="border p-3">Agua, fruta, snacks</td></tr>
+          <tr><td class="border p-3">Sonido</td><td class="border p-3">Monitores en cabina</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flex gap-4">
+      <a href="#" class="bg-gray-800 text-white px-6 py-3 rounded">Descargar PDF</a>
+      <a href="#" class="bg-blue-600 text-white px-6 py-3 rounded">Compartir</a>
+    </div>
+  </section>
+</BaseLayout>

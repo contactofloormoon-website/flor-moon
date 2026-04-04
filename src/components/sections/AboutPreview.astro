@@ -1,0 +1,30 @@
+---
+// AboutPreview.astro - Vista previa de la biografía
+---
+
+<section class="relative bg-black py-24 px-4 overflow-hidden">
+  <!-- Luna violeta decorativa opaca -->
+  <div class="absolute top-0 right-0 w-96 h-96 opacity-10 pointer-events-none">
+    <img src="/images/moon-violet.png" alt="" class="w-full h-full object-contain" />
+  </div>
+
+  <div class="relative z-10 max-w-6xl mx-auto">
+    <div class="max-w-2xl">
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 tracking-wide">
+        Sobre<span class="text-purple-500"> Flor Moon</span>
+      </h2>
+      <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        Flor Moon es DJ y productora de Rosario, Argentina. Su estilo profundo y melódico fusiona 
+        House, Deep House, Progressive House, Minimal House, Techno y Melodic Techno. 
+        Con una presencia sólida y sets hipnóticos, ha llevado su música a clubes como 
+        Bunker Basquiat, Hum Club, Chicago Club y más.
+      </p>
+      <a 
+        href="/about" 
+        class="inline-block text-purple-400 font-semibold border-b-2 border-purple-500 pb-1 hover:text-purple-300 transition-colors"
+      >
+        Leer bio completa →
+      </a>
+    </div>
+  </div>
+</section>

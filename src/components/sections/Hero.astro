@@ -1,0 +1,71 @@
+---
+// Hero.astro - Sección principal full screen con foto de fondo
+// Datos del DJ
+const djName = "FLOR MOON";
+const tagline = "DJ & Electronic Artist • Argentina";
+const spotifyUrl = "#"; // Reemplazar cuando tengas
+const whatsappUrl = "https://wa.link/rzpjg7";
+---
+
+<section class="relative h-screen w-full overflow-hidden">
+  <!-- Imagen de fondo con overlay violeta oscuro -->
+  <div class="absolute inset-0 z-0">
+    <img 
+      src="/images/hero-bg.jpg" 
+      alt="Flor Moon DJ"
+      class="h-full w-full object-cover"
+      loading="eager"
+    />
+    <!-- Overlay gradiente violeta oscuro para profundidad -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-purple-900/40 to-black/80"></div>
+  </div>
+
+  <!-- Contenido centrado -->
+  <div class="relative z-10 flex h-full w-full items-center justify-center px-4">
+    <div class="text-center max-w-4xl mx-auto">
+      <!-- Nombre: desktop una línea, móvil dos líneas -->
+      <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-wide text-white mb-4">
+        <span class="block sm:inline">FLOR</span>
+        <span class="block sm:inline"> MOON</span>
+      </h1>
+      
+      <!-- Tagline -->
+      <p class="text-gray-300 text-lg md:text-xl tracking-wide mb-8">
+        {tagline}
+      </p>
+      
+      <!-- Botones -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a 
+          href={spotifyUrl}
+          class="px-8 py-3 bg-purple-600 text-white font-semibold rounded-full transition-all duration-300 hover:bg-purple-500 hover:scale-105 shadow-lg"
+        >
+          Escuchar
+        </a>
+        <a 
+          href={whatsappUrl}
+          class="px-8 py-3 bg-transparent border-2 border-purple-500 text-white font-semibold rounded-full transition-all duration-300 hover:bg-purple-600 hover:border-purple-600"
+        >
+          Contratar
+        </a>
+      </div>
+      
+      <!-- Scroll indicator -->
+      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <svg class="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+  }
+  .animate-bounce {
+    animation: bounce 2s infinite;
+  }
+</style>
