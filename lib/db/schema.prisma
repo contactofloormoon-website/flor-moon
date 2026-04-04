@@ -1,0 +1,136 @@
+// lib/db/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model DJ {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  tagline       String?
+  bio           String?
+  location      String?
+  genres        String?
+  highlights    String?
+  labels        String?
+  email         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  hero          Hero?
+  appearance    Appearance?
+  events        Event[]
+  music         MusicLink[]
+  gallery       GalleryImage[]
+  rider         RiderItem[]
+  contact       Contact?
+  sections      Sections?
+}
+
+model Hero {
+  id               String   @id @default(cuid())
+  djId             String   @unique
+  backgroundImage  String?
+  backgroundType   String   @default("image")
+  logo             String?
+  showLogo         Boolean  @default(true)
+  useTextInstead   Boolean  @default(false)
+  artistName       String?
+  tagline          String?
+  position         String   @default("center")
+  logoSize         Int      @default(120)
+  overlayOpacity   Float    @default(0.4)
+  showButtons      Boolean  @default(true)
+  dj               DJ       @relation(fields: [djId], references: [id], onDelete: Cascade)
+}
+
+model Appearance {
+  id                String   @id @default(cuid())
+  djId              String   @unique
+  primaryColor      String   @default("#ffffff")
+  backgroundColor   String   @default("#000000")
+  textColor         String   @default("#ffffff")
+  font              String   @default("Inter")
+  backgroundType    String   @default("solid")
+  backgroundImage   String?
+  textureImage      String?
+  textureOpacity    Float    @default(0.5)
+  stylePreset       String   @default("dark")
+  dj                DJ       @relation(fields: [djId], references: [id], onDelete: Cascade)
+}
+
+model Event {
+  id        String   @id @default(cuid())
+  djId      String
+  date      DateTime
+  city      String
+  venue     String
+  promoter  String
+  dj        DJ       @relation(fields: [djId], references: [id], onDelete: Cascade)
+  
+  @@index([djId])
+}
+
+model MusicLink {
+  id          String   @id @default(cuid())
+  djId        String
+  url         String
+  platform    String
+  isFeatured  Boolean  @default(false)
+  order       Int      @default(0)
+  dj          DJ       @relation(fields: [djId], references: [id], onDelete: Cascade)
+  
+  @@index([djId])
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  djId      String
+  url       String
+  alt       String?
+  order     Int      @default(0)
+  dj        DJ       @relation(fields: [djId], references: [id], onDelete: Cascade)
+  
+  @@index([djId])
+}
+
+model RiderItem {
+  id          String   @id @default(cuid())
+  djId        String
+  item        String
+  requirement String
+  order       Int      @default(0)
+  dj          DJ       @relation(fields: [djId], references: [id], onDelete: Cascade)
+  
+  @@index([djId])
+}
+
+model Contact {
+  id                  String   @id @default(cuid())
+  djId                String   @unique
+  email               String?
+  instagram           String?
+  soundcloud          String?
+  spotify             String?
+  youtube             String?
+  beatport            String?
+  apple               String?
+  showBookingButton   Boolean  @default(true)
+  dj                  DJ       @relation(fields: [djId], references: [id], onDelete: Cascade)
+}
+
+model Sections {
+  id          String   @id @default(cuid())
+  djId        String   @unique
+  about       Boolean  @default(true)
+  events      Boolean  @default(true)
+  music       Boolean  @default(true)
+  gallery     Boolean  @default(true)
+  rider       Boolean  @default(true)
+  contact     Boolean  @default(true)
+  dj          DJ       @relation(fields: [djId], references: [id], onDelete: Cascade)
+}
