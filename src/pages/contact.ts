@@ -1,13 +1,21 @@
 export const prerender = false;
 
-// Agregamos "locals" aquí para que Cloudflare nos pase la API KEY
 export async function POST({ request, locals }: { request: Request; locals: any }) {
   try {
-    const { name, email, phone, subject, message } = await request.json();
+    const data = await request.json();
+    const { name, email, phone, subject, message } = data;
     
-    // Esta línea es la única que cambia: intenta leer de Cloudflare, y si no, de local
-    const RESEND_API_KEY = locals.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
+    // Intentamos leer la API KEY de todas las formas que Cloudflare permite
+    const RESEND_API_KEY = 
+      locals?.runtime?.env?.RESEND_API_KEY || 
+      (locals as any)?.env?.RESEND_API_KEY || 
+      import.meta.env.RESEND_API_KEY;
     
+    if (!RESEND_API_KEY) {
+      console.error("Error: RESEND_API_KEY no encontrada");
+      return new Response(JSON.stringify({ success: false, error: 'Missing API Key' }), { status: 500 });
+    }
+
     const emailContent = `
 Nombre: ${name}
 Email: ${email}
@@ -34,9 +42,12 @@ Mensaje: ${message}
     if (response.ok) {
       return new Response(JSON.stringify({ success: true }), { status: 200 });
     } else {
+      const errorDetail = await response.text();
+      console.error("Error de Resend:", errorDetail);
       return new Response(JSON.stringify({ success: false }), { status: 500 });
     }
   } catch (error) {
+    console.error("Error en el servidor:", error);
     return new Response(JSON.stringify({ success: false }), { status: 500 });
   }
 }
