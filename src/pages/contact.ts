@@ -1,8 +1,10 @@
-export async function onRequestPost({ request, env }) {
+export const prerender = false;
+
+export async function POST({ request, locals }: { request: Request; locals: any }) {
   try {
     const { name, email, phone, subject, message } = await request.json();
     
-    const resendApiKey = env.RESEND_API_KEY;
+    const RESEND_API_KEY = process.env.RESEND_API_KEY;
     
     const emailContent = `
 Nombre: ${name}
@@ -15,7 +17,7 @@ Mensaje: ${message}
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${resendApiKey}`,
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
