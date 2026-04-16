@@ -1,10 +1,12 @@
 export const prerender = false;
 
-export async function POST({ request }: { request: Request }) {
+// Agregamos "locals" aquí para que Cloudflare nos pase la API KEY
+export async function POST({ request, locals }: { request: Request; locals: any }) {
   try {
     const { name, email, phone, subject, message } = await request.json();
     
-    const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
+    // Esta línea es la única que cambia: intenta leer de Cloudflare, y si no, de local
+    const RESEND_API_KEY = locals.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
     
     const emailContent = `
 Nombre: ${name}
