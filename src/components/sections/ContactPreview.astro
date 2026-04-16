@@ -21,23 +21,23 @@ const youtubeUrl = "https://www.youtube.com/@florencialuna7229";
         <form id="contact-form" class="space-y-5">
           <div>
             <label class="block text-gray-300 mb-1">Nombre completo <span class="text-purple-500">*</span></label>
-            <input type="text" id="name" required class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
+            <input type="text" id="name" name="name" required class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
           </div>
           <div>
             <label class="block text-gray-300 mb-1">Email <span class="text-purple-500">*</span></label>
-            <input type="email" id="email" required class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
+            <input type="email" id="email" name="email" required class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
           </div>
           <div>
             <label class="block text-gray-300 mb-1">Teléfono</label>
-            <input type="tel" id="phone" class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
+            <input type="tel" id="phone" name="phone" class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
           </div>
           <div>
             <label class="block text-gray-300 mb-1">Asunto</label>
-            <input type="text" id="subject" class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
+            <input type="text" id="subject" name="subject" class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
           </div>
           <div>
             <label class="block text-gray-300 mb-1">Mensaje <span class="text-purple-500">*</span></label>
-            <textarea id="message" rows="5" required class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition"></textarea>
+            <textarea id="message" name="message" rows="5" required class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition"></textarea>
           </div>
           <button type="submit" class="w-full bg-purple-600 text-white font-semibold py-3 rounded-full hover:bg-purple-500 transition duration-300">
             Enviar mensaje
@@ -83,29 +83,30 @@ const youtubeUrl = "https://www.youtube.com/@florencialuna7229";
 </section>
 
 <script>
-  document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const statusDiv = document.getElementById('form-status');
+
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const statusDiv = document.getElementById('form-status');
+    if (!statusDiv) return;
+    
     statusDiv.innerHTML = '<span class="text-gray-300">Enviando...</span>';
     
-    const formData = {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      phone: document.getElementById('phone').value,
-      subject: document.getElementById('subject').value,
-      message: document.getElementById('message').value
-    };
+    // Capturamos los datos usando FormData para que sea más limpio
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
     
     try {
+      // Enviamos a la ruta /contact (que maneja el archivo functions/contact.js)
       const response = await fetch('/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(data)
       });
       
       if (response.ok) {
         statusDiv.innerHTML = '<span class="text-green-400">Gracias por contactarme, a la brevedad te responderé.</span>';
-        document.getElementById('contact-form').reset();
+        form.reset();
       } else {
         statusDiv.innerHTML = '<span class="text-red-400">Error al enviar. Intentá de nuevo.</span>';
       }
