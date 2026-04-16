@@ -5,7 +5,12 @@ import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
-  adapter: cloudflare(),
+  output: 'server', // Mantiene el sitio en modo servidor
+  adapter: cloudflare({
+    mode: 'directory', // ESTA LÍNEA es la que arregla los errores 404 en subpáginas
+    platformProxy: {
+      enabled: true,
+    },
+  }),
   integrations: [react()],
 });
