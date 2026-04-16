@@ -1,10 +1,12 @@
+// src/pages/contact.ts
 export const prerender = false;
 
 export async function POST({ request, locals }: { request: Request; locals: any }) {
   try {
     const { name, email, phone, subject, message } = await request.json();
     
-    const RESEND_API_KEY = process.env.RESEND_API_KEY;
+    // CAMBIO IMPORTANTE: Así se accede en Cloudflare con Astro
+    const RESEND_API_KEY = locals.runtime.env.RESEND_API_KEY;
     
     const emailContent = `
 Nombre: ${name}
@@ -32,6 +34,9 @@ Mensaje: ${message}
     if (response.ok) {
       return new Response(JSON.stringify({ success: true }), { status: 200 });
     } else {
+      // Agregamos esto para ver el error en la consola de Cloudflare si falla
+      const errorText = await response.text();
+      console.error('Error de Resend:', errorText);
       return new Response(JSON.stringify({ success: false }), { status: 500 });
     }
   } catch (error) {
