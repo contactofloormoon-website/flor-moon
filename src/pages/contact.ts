@@ -1,11 +1,10 @@
-export const prerender = false;
+export const prerender = true;
 
 export async function POST({ request, locals }: { request: Request; locals: any }) {
   try {
     const data = await request.json();
     const { name, email, phone, subject, message } = data;
     
-    // Intentamos leer la API KEY de todas las formas que Cloudflare permite
     const RESEND_API_KEY = 
       locals?.runtime?.env?.RESEND_API_KEY || 
       (locals as any)?.env?.RESEND_API_KEY || 
