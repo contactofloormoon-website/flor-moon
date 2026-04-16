@@ -86,7 +86,7 @@ const youtubeUrl = "https://www.youtube.com/@florencialuna7229";
   document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const statusDiv = document.getElementById('form-status');
-    statusDiv.innerHTML = 'Enviando...';
+    statusDiv.innerHTML = '<span class="text-gray-300">Enviando...</span>';
     
     const formData = {
       name: document.getElementById('name').value,
@@ -104,7 +104,7 @@ const youtubeUrl = "https://www.youtube.com/@florencialuna7229";
       });
       
       if (response.ok) {
-        statusDiv.innerHTML = '<span class="text-green-400">¡Mensaje enviado con éxito!</span>';
+        statusDiv.innerHTML = '<span class="text-green-400">Gracias por contactarme, a la brevedad te responderé.</span>';
         document.getElementById('contact-form').reset();
       } else {
         statusDiv.innerHTML = '<span class="text-red-400">Error al enviar. Intentá de nuevo.</span>';
