@@ -1,5 +1,5 @@
 ---
-// Formulario de contacto con Web3Forms
+// Formulario de contacto con Web3Forms + hCaptcha
 const bookingEmail = "contacto.flormoon@gmail.com";
 const phone = "+54 9 3704 85-4465";
 const whatsappUrl = "https://wa.link/rzpjg7";
@@ -7,6 +7,7 @@ const instagramUrl = "https://www.instagram.com/florluna__/";
 const soundcloudUrl = "https://soundcloud.com/florencia-luna-944277749";
 const youtubeUrl = "https://www.youtube.com/@florencialuna7229";
 const web3formsKey = "f41957df-0cdc-4908-828d-0d2a0f2926fa";
+const hcaptchaSiteKey = "f41957df-0cdc-4908-828d-0d2a0f2926fa";
 ---
 
 <section class="bg-black py-24 px-4">
@@ -39,6 +40,10 @@ const web3formsKey = "f41957df-0cdc-4908-828d-0d2a0f2926fa";
             <label class="block text-gray-300 mb-1">Mensaje <span class="text-purple-500">*</span></label>
             <textarea id="message" name="message" rows="5" required class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition"></textarea>
           </div>
+          
+          <!-- Widget hCaptcha -->
+          <div class="h-captcha" data-sitekey={hcaptchaSiteKey}></div>
+          
           <button type="submit" class="w-full bg-purple-600 text-white font-semibold py-3 rounded-full hover:bg-purple-500 transition duration-300">
             Enviar mensaje
           </button>
@@ -82,6 +87,9 @@ const web3formsKey = "f41957df-0cdc-4908-828d-0d2a0f2926fa";
   </div>
 </section>
 
+<!-- Script de hCaptcha -->
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+
 <script>
   const form = document.getElementById('contact-form');
   const statusDiv = document.getElementById('form-status');
@@ -89,6 +97,13 @@ const web3formsKey = "f41957df-0cdc-4908-828d-0d2a0f2926fa";
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!statusDiv) return;
+    
+    // Verificar que hCaptcha esté completado
+    const hcaptchaResponse = document.querySelector('[name="h-captcha-response"]')?.value;
+    if (!hcaptchaResponse) {
+      statusDiv.innerHTML = '<span class="text-red-400">Por favor completá el captcha.</span>';
+      return;
+    }
     
     statusDiv.innerHTML = '<span class="text-gray-300">Enviando...</span>';
     
@@ -107,6 +122,10 @@ const web3formsKey = "f41957df-0cdc-4908-828d-0d2a0f2926fa";
       if (result.success) {
         statusDiv.innerHTML = '<span class="text-green-400">Gracias por contactarme, a la brevedad te responderé.</span>';
         form.reset();
+        // Resetear hCaptcha
+        if (window.hcaptcha) {
+          window.hcaptcha.reset();
+        }
       } else {
         statusDiv.innerHTML = '<span class="text-red-400">Error al enviar. Intentá de nuevo.</span>';
       }
