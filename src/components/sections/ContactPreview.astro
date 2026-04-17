@@ -1,11 +1,12 @@
 ---
-// Formulario de contacto completo
+// Formulario de contacto con Web3Forms
 const bookingEmail = "contacto.flormoon@gmail.com";
 const phone = "+54 9 3704 85-4465";
 const whatsappUrl = "https://wa.link/rzpjg7";
 const instagramUrl = "https://www.instagram.com/florluna__/";
 const soundcloudUrl = "https://soundcloud.com/florencia-luna-944277749";
 const youtubeUrl = "https://www.youtube.com/@florencialuna7229";
+const web3formsKey = "f41957df-0cdc-4908-828d-0d2a0f2926fa";
 ---
 
 <section class="bg-black py-24 px-4">
@@ -19,6 +20,9 @@ const youtubeUrl = "https://www.youtube.com/@florencialuna7229";
       <!-- Columna izquierda: formulario -->
       <div>
         <form id="contact-form" class="space-y-5">
+          <!-- Campo oculto para Web3Forms -->
+          <input type="hidden" name="access_key" value={web3formsKey} />
+          
           <div>
             <label class="block text-gray-300 mb-1">Nombre completo <span class="text-purple-500">*</span></label>
             <input type="text" id="name" name="name" required class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
@@ -26,10 +30,6 @@ const youtubeUrl = "https://www.youtube.com/@florencialuna7229";
           <div>
             <label class="block text-gray-300 mb-1">Email <span class="text-purple-500">*</span></label>
             <input type="email" id="email" name="email" required class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
-          </div>
-          <div>
-            <label class="block text-gray-300 mb-1">Teléfono</label>
-            <input type="tel" id="phone" name="phone" class="w-full bg-black/50 border border-purple-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition" />
           </div>
           <div>
             <label class="block text-gray-300 mb-1">Asunto</label>
@@ -92,19 +92,19 @@ const youtubeUrl = "https://www.youtube.com/@florencialuna7229";
     
     statusDiv.innerHTML = '<span class="text-gray-300">Enviando...</span>';
     
-    // Capturamos los datos usando FormData para que sea más limpio
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
     
     try {
-      // Enviamos a la ruta /contact (que maneja el archivo functions/contact.js)
-      const response = await fetch('/contact', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
       
-      if (response.ok) {
+      const result = await response.json();
+      
+      if (result.success) {
         statusDiv.innerHTML = '<span class="text-green-400">Gracias por contactarme, a la brevedad te responderé.</span>';
         form.reset();
       } else {
