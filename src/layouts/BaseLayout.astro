@@ -2,6 +2,39 @@
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import '/src/styles/global.css';
+
+// Obtener la ruta actual
+const currentPath = Astro.url.pathname;
+
+// Configuración dinámica por página
+let pageTitle = 'FLOR MOON';
+let pageDescription = 'DJ & Electronic Artist • Argentina';
+let pageImage = '/images/hero-bg.jpg';
+const siteUrl = Astro.site || 'https://flor-moon.pages.dev';
+
+if (currentPath === '/' || currentPath === '/index') {
+  pageTitle = 'FLOR MOON';
+  pageDescription = 'DJ & Electronic Artist • Argentina';
+} else if (currentPath.includes('/events')) {
+  pageTitle = 'Fechas - FLOR MOON';
+  pageDescription = 'Próximos shows y eventos';
+} else if (currentPath.includes('/music')) {
+  pageTitle = 'Música - FLOR MOON';
+  pageDescription = 'Escuchá mis sets en SoundCloud';
+} else if (currentPath.includes('/gallery')) {
+  pageTitle = 'Galería - FLOR MOON';
+  pageDescription = 'Fotos y momentos';
+} else if (currentPath.includes('/rider')) {
+  pageTitle = 'Rider Técnico - FLOR MOON';
+  pageDescription = 'Requerimientos técnicos';
+} else if (currentPath.includes('/about')) {
+  pageTitle = 'Bio - FLOR MOON';
+  pageDescription = 'Conocé más sobre Flor Moon';
+}
+
+// URL completa de la imagen
+const fullImageUrl = `${siteUrl}${pageImage}`;
+const fullPageUrl = `${siteUrl}${currentPath}`;
 ---
 
 <!DOCTYPE html>
@@ -9,7 +42,29 @@ import '/src/styles/global.css';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flor Moon | DJ & Electronic Artist</title>
+    
+    <!-- Título dinámico -->
+    <title>{pageTitle}</title>
+    
+    <!-- Meta descripción -->
+    <meta name="description" content={pageDescription} />
+    
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={fullPageUrl} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content={fullImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={fullPageUrl} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={fullImageUrl} />
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   </head>
