@@ -55,13 +55,45 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <!-- BOTONES -->
     <div class="flex justify-center gap-4">
-      <a href="#" class="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-500 transition duration-300">
+      <a href="https://drive.google.com/file/d/1l0RTCaB-UjCyiV78YxlyUkf75vIhC5ae/view?usp=drive_link" class="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-500 transition duration-300">
         Descargar PDF
       </a>
-      <a href="#" class="bg-transparent border border-purple-500 text-white px-6 py-3 rounded-full hover:bg-purple-600 transition duration-300">
+      <button id="share-btn" class="bg-transparent border border-purple-500 text-white px-6 py-3 rounded-full hover:bg-purple-600 transition duration-300">
         Compartir
-      </a>
+      </button>
     </div>
 
   </section>
 </BaseLayout>
+
+<script>
+  const shareBtn = document.getElementById('share-btn');
+  
+  shareBtn?.addEventListener('click', async () => {
+    const shareData = {
+      title: 'Rider Técnico - Flor Moon',
+      text: 'Rider técnico de Flor Moon - DJ & Electronic Artist',
+      url: window.location.href,
+    };
+
+    // Verificar si el navegador soporta Web Share API
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        // El usuario canceló o hubo un error
+        if (err.name !== 'AbortError') {
+          console.log('Error al compartir:', err);
+        }
+      }
+    } else {
+      // Fallback: copiar enlace al portapapeles
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Enlace copiado al portapapeles');
+      } catch {
+        alert('Compartir no está soportado en este navegador');
+      }
+    }
+  });
+</script>
