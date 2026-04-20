@@ -3,52 +3,50 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout>
-  <section class="max-w-4xl mx-auto px-4 py-16 text-center">
+  <section class="max-w-4xl mx-auto px-4 pt-24 pb-16 text-center">
     
-    <h1 class="text-4xl font-bold mb-12">Rider Técnico</h1>
+    <h1 class="text-4xl font-bold mb-10 text-white">Rider<span class="text-purple-500"> Técnico</span></h1>
 
     <!-- EQUIPO VISUAL -->
-    <div class="flex justify-center items-center gap-2 mb-12">
+    <div class="flex justify-center items-end gap-0 mb-14">
       <img 
         src="https://acdn-us.mitiendanube.com/stores/004/994/735/products/cdj-3000-top-hero-74420b5e1cafc07b3517267536001009-1024-1024.webp" 
         alt="CDJ 3000"
-        class="w-32"
+        class="w-1/3 md:w-48 object-contain"
       />
-
       <img 
         src="https://acdn-us.mitiendanube.com/stores/004/994/735/products/djm-a9-cgi-top-pc-4b8db6fea788609b9517274614155743-1024-1024.webp" 
         alt="Mixer DJM"
-        class="w-32"
+        class="w-1/3 md:w-56 object-contain"
       />
-
       <img 
         src="https://acdn-us.mitiendanube.com/stores/004/994/735/products/cdj-3000-top-hero-74420b5e1cafc07b3517267536001009-1024-1024.webp" 
         alt="CDJ 3000"
-        class="w-32"
+        class="w-1/3 md:w-48 object-contain"
       />
     </div>
 
     <!-- SETUP PRINCIPAL -->
     <div class="mb-10 text-left">
-      <h2 class="text-xl font-semibold mb-4">Setup requerido</h2>
-      <ul class="space-y-2">
-        <li>• 2–3 Pioneer CDJ-3000</li>
+      <h2 class="text-xl font-semibold mb-4 text-white">Setup requerido</h2>
+      <ul class="space-y-2 text-gray-300">
+        <li>• 2–4 Pioneer CDJ-3000</li>
         <li>• Mixer Pioneer DJM-900NXS2 o superior</li>
       </ul>
     </div>
 
     <!-- SETUP ALTERNATIVO -->
     <div class="mb-10 text-left">
-      <h2 class="text-xl font-semibold mb-4">Setup alternativo</h2>
-      <ul class="space-y-2">
+      <h2 class="text-xl font-semibold mb-4 text-white">Setup alternativo</h2>
+      <ul class="space-y-2 text-gray-300">
         <li>• Pioneer CDJ-2000</li>
       </ul>
     </div>
 
     <!-- REQUERIMIENTOS -->
     <div class="mb-12 text-left">
-      <h2 class="text-xl font-semibold mb-4">Requerimientos</h2>
-      <ul class="space-y-2">
+      <h2 class="text-xl font-semibold mb-4 text-white">Requerimientos</h2>
+      <ul class="space-y-2 text-gray-300">
         <li>• Sistema de monitoreo estéreo en cabina</li>
         <li>• Equipos correctamente conectados y operativos</li>
         <li>• Prueba de sonido previa al evento</li>
@@ -57,10 +55,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <!-- BOTONES -->
     <div class="flex justify-center gap-4">
-      <a href="#" class="bg-gray-800 text-white px-6 py-3 rounded">
+      <a href="#" class="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-500 transition duration-300">
         Descargar PDF
       </a>
-      <a href="#" class="bg-blue-600 text-white px-6 py-3 rounded">
+      <a href="#" class="bg-transparent border border-purple-500 text-white px-6 py-3 rounded-full hover:bg-purple-600 transition duration-300">
         Compartir
       </a>
     </div>
